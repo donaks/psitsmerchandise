@@ -18,7 +18,7 @@ const parseScan = (text: string): Scan => {
   const labeled = normalized.match(/(?:REF(?:ERENCE)?(?:\s*(?:NO|NUMBER|#))?|TRACE(?:\s*(?:NO|NUMBER|#))?)[\s:.-]*([A-Z0-9-]{8,28})/);
   const fallback = normalized.match(/\b\d{12,18}\b/);
   const date = text.match(/\b(?:\d{1,2}[\/-]){2}\d{2,4}(?:\s+\d{1,2}:\d{2}(?:\s*[AP]M)?)?/i)?.[0] ?? null;
-  return { text, reference: (labeled?.[1] ?? fallback?.[0] ?? null)?.replace(/[^A-Z0-9]/gi, "") ?? null, amountOk: /(?:PHP|₱|P)?\s*650(?:[.,]00)?\b/i.test(text), date };
+  return { text, reference: (labeled?.[1] ?? fallback?.[0] ?? null)?.replace(/[^A-Z0-9]/gi, "") ?? null, amountOk: /(?:PHP|₱|P)?\s*630(?:[.,]00)?\b/i.test(text), date };
 };
 
 function loadTesseract() {
@@ -58,7 +58,7 @@ export default function Home() {
       const parsed = parseScan(result.data.text);
       const valid = Boolean(parsed.reference && parsed.amountOk && /gcash/i.test(parsed.text));
       setScan(parsed); setStatus(valid ? "ready" : "error");
-      setMessage(valid ? "Receipt details found. Review them before submitting." : "We could not validate the receipt. Use a clear, uncropped GCash screenshot showing ₱650.00 and the reference number.");
+      setMessage(valid ? "Receipt details found. Review them before submitting." : "We could not validate the receipt. Use a clear, uncropped GCash screenshot showing ₱630.00 and the reference number.");
     } catch {
       setStatus("error"); setMessage("Receipt reading could not start. Check your connection and try again.");
     }
@@ -83,12 +83,12 @@ export default function Home() {
       <div className="ticker">14TH PSITS REGIONAL CONVENTION <span>•</span> ONE COMPLETE KIT <span>•</span> SECURE GCASH SUBMISSION</div>
       <header><a className="brand" href="#top"><img className="brandLogo" src="/psits-region-xii-seal.png" alt="PSITS Region XII seal"/><div>PSITS<small>REGIONAL CONVENTION</small></div></a><a className="navCta" href="#order">Order Kit</a></header>
       <section className="hero" id="top">
-        <div className="heroCopy"><img className="eventLogo" src="/psits-14-official.png" alt="14th PSITS Regional Convention — From Ideas to Impact: IT as the Core Driver of Innovation"/><p className="eyebrow">Official convention bundle</p><h1>ONE KIT.<br/><em>ALL IN.</em></h1><p className="lede">Jersey, lanyard, commemorative pin, and graphic tote—one complete PSITS convention set.</p><div className="price"><small>COMPLETE KIT</small><strong>₱650.00</strong></div><a className="primary" href="#order">Order & upload receipt ↓</a></div>
+        <div className="heroCopy"><img className="eventLogo" src="/psits-14-official.png" alt="14th PSITS Regional Convention — From Ideas to Impact: IT as the Core Driver of Innovation"/><p className="eyebrow">Official convention bundle</p><h1>ONE KIT.<br/><em>ALL IN.</em></h1><p className="lede">Jersey, lanyard, commemorative pin, and graphic tote—one complete PSITS convention set.</p><div className="price"><small>COMPLETE KIT</small><strong>₱630.00</strong></div><a className="primary" href="#order">Order & upload receipt ↓</a></div>
         <div className="heroVisual"><img src="/psits-kit.png" alt="14th PSITS Regional Convention bundle with jersey, tote bag, lanyard and pin"/><div className="stamp">4 PIECES<br/>1 KIT</div></div>
       </section>
       <section className="kitStrip"><div><b>01</b><span>Convention Jersey</span></div><div><b>02</b><span>Event Lanyard</span></div><div><b>03</b><span>Button Pin</span></div><div><b>04</b><span>Graphic Tote</span></div></section>
       <section className="orderSection" id="order">
-        <div className="orderIntro"><p className="eyebrow">Payment & reservation</p><h2>PAY. UPLOAD.<br/><em>YOU&apos;RE IN.</em></h2><p>Send exactly <b>₱650.00</b> through GCash, then upload the original transaction receipt. The system reads the receipt, checks the reference number, and rejects duplicate submissions.</p><div className="gcashCard"><span>GCASH NUMBER</span><strong>0945 406 2928</strong><button type="button" onClick={() => navigator.clipboard.writeText("09454062928")}>Copy number</button></div><div className="securityNote"><b>Duplicate protection</b><p>Every reference number and receipt image fingerprint can only be used once.</p></div></div>
+        <div className="orderIntro"><p className="eyebrow">Payment & reservation</p><h2>PAY. UPLOAD.<br/><em>YOU&apos;RE IN.</em></h2><p>Send exactly <b>₱630.00</b> through GCash, then upload the original transaction receipt. The system reads the receipt, checks the reference number, and rejects duplicate submissions.</p><div className="gcashCard"><span>GCASH NUMBER</span><strong>0945 406 2928</strong><button type="button" onClick={() => navigator.clipboard.writeText("09454062928")}>Copy number</button><img className="gcashQr" src="/gcash-qr-630.jpg" alt="GCash QR code for the ₱630.00 complete convention kit"/><small>Scan to pay ₱630.00</small></div><div className="securityNote"><b>Duplicate protection</b><p>Every reference number and receipt image fingerprint can only be used once.</p></div></div>
         <form ref={formRef} onSubmit={submitOrder} className="orderForm">
           <div className="formTitle"><span>STEP 01</span><h3>Customer details</h3></div>
           <div className="twoCol"><label>Client name<input name="clientName" required minLength={2} placeholder="Juan Dela Cruz"/></label><label>Email address<input name="email" type="email" required placeholder="juan@email.com"/></label></div>
@@ -98,10 +98,10 @@ export default function Home() {
           <div className="formTitle second"><span>STEP 02</span><h3>GCash receipt</h3></div>
           <label className={`upload ${preview ? "hasPreview" : ""}`}>{preview ? <img src={preview} alt="Selected GCash receipt preview"/> : <><div className="uploadIcon">↑</div><b>Upload transaction receipt</b><span>JPG, PNG or WebP • 8 MB maximum</span></>}<input type="file" accept="image/png,image/jpeg,image/webp" required onChange={event => { const file=event.target.files?.[0]; if(file) void readReceipt(file); }}/>{preview && <span className="replace">Choose a different image</span>}</label>
           {status === "scanning" && <div className="scanBox"><div><b>Reading receipt</b><span>{progress}%</span></div><progress value={progress} max="100"/></div>}
-          {scan && <div className={`scanResult ${scanReady ? "valid" : "invalid"}`}><div className="scanHead"><b>{scanReady ? "Receipt details detected" : "Receipt needs attention"}</b><span>{scanReady ? "VALIDATED" : "NOT READY"}</span></div><dl><div><dt>Amount</dt><dd>{scan.amountOk ? "₱650.00" : "Not found"}</dd></div><div><dt>Reference no.</dt><dd>{scan.reference ?? "Not found"}</dd></div><div><dt>Date / time</dt><dd>{scan.date ?? "Will be reviewed"}</dd></div></dl></div>}
+          {scan && <div className={`scanResult ${scanReady ? "valid" : "invalid"}`}><div className="scanHead"><b>{scanReady ? "Receipt details detected" : "Receipt needs attention"}</b><span>{scanReady ? "VALIDATED" : "NOT READY"}</span></div><dl><div><dt>Amount</dt><dd>{scan.amountOk ? "₱630.00" : "Not found"}</dd></div><div><dt>Reference no.</dt><dd>{scan.reference ?? "Not found"}</dd></div><div><dt>Date / time</dt><dd>{scan.date ?? "Will be reviewed"}</dd></div></dl></div>}
           {message && <div className={`message ${status}`}>{message}</div>}
           <label className="consent"><input type="checkbox" required/> I confirm that the information is correct and authorize PSITS organizers to review this receipt for order verification.</label>
-          <button className="submit" disabled={!scanReady || status === "submitting" || status === "success"}>{status === "submitting" ? "Saving order…" : "Submit ₱650 kit order"}</button>
+          <button className="submit" disabled={!scanReady || status === "submitting" || status === "success"}>{status === "submitting" ? "Saving order…" : "Submit ₱630 kit order"}</button>
           <p className="privacy">Customer details and the receipt are stored securely for order verification. Successful OCR checks remain subject to organizer review.</p>
         </form>
       </section>

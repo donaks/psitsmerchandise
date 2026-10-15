@@ -2,7 +2,7 @@ import { env } from "cloudflare:workers";
 
 export const runtime = "edge";
 
-const KIT_AMOUNT_CENTAVOS = 65000;
+const KIT_AMOUNT_CENTAVOS = 63000;
 const ALLOWED_SIZES = new Set(["XS", "S", "M", "L", "XL", "2XL", "3XL"]);
 
 function json(body: unknown, status = 200) {
@@ -20,7 +20,7 @@ function extractReference(text: string) {
 }
 
 function receiptHasCorrectAmount(text: string) {
-  return /(?:PHP|₱|P)?\s*650(?:[.,]00)?\b/i.test(text);
+  return /(?:PHP|₱|P)?\s*630(?:[.,]00)?\b/i.test(text);
 }
 
 function safeExtension(file: File) {
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     if (!(receipt instanceof File) || !receipt.type.startsWith("image/")) return json({ error: "Upload a JPG, PNG, or WebP receipt image." }, 400);
     if (receipt.size < 10_000 || receipt.size > 8_000_000) return json({ error: "Receipt image must be between 10 KB and 8 MB." }, 400);
     if (!/GCASH/i.test(extractedText)) return json({ error: "The uploaded image was not recognized as a GCash receipt." }, 422);
-    if (!receiptHasCorrectAmount(extractedText)) return json({ error: "The receipt amount must be exactly ₱650.00." }, 422);
+    if (!receiptHasCorrectAmount(extractedText)) return json({ error: "The receipt amount must be exactly ₱630.00." }, 422);
 
     const gcashReference = extractReference(extractedText);
     if (!gcashReference || gcashReference.length < 8) return json({ error: "No valid GCash reference number was detected. Upload a clearer receipt." }, 422);
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
         ok: true,
         orderId: result.meta.last_row_id,
         reference: gcashReference,
-        amount: "₱650.00",
+        amount: "₱630.00",
         status: "pending_review",
       }, 201);
     } catch (error) {
