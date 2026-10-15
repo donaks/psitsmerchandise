@@ -84,7 +84,7 @@ export default function Home() {
       <header><a className="brand" href="#top"><img className="brandLogo" src="/psits-region-xii-seal.png" alt="PSITS Region XII seal"/><div>PSITS<small>REGIONAL CONVENTION</small></div></a><a className="navCta" href="#order">Order Kit</a></header>
       <section className="hero" id="top">
         <div className="heroCopy"><img className="eventLogo" src="/psits-14-official.png" alt="14th PSITS Regional Convention — From Ideas to Impact: IT as the Core Driver of Innovation"/><p className="eyebrow">Official convention bundle</p><h1>ONE KIT.<br/><em>ALL IN.</em></h1><p className="lede">Jersey, lanyard, commemorative pin, and graphic tote—one complete PSITS convention set.</p><div className="price"><small>COMPLETE KIT</small><strong>₱650.00</strong></div><a className="primary" href="#order">Order & upload receipt ↓</a></div>
-        <div className="heroVisual"><img src="/psits-kit.png" alt="PSITS kit with jersey, lanyard and pin"/><div className="stamp">4 PIECES<br/>1 KIT</div></div>
+        <div className="heroVisual"><img src="/psits-kit.png" alt="14th PSITS Regional Convention bundle with jersey, tote bag, lanyard and pin"/><div className="stamp">4 PIECES<br/>1 KIT</div></div>
       </section>
       <section className="kitStrip"><div><b>01</b><span>Convention Jersey</span></div><div><b>02</b><span>Event Lanyard</span></div><div><b>03</b><span>Button Pin</span></div><div><b>04</b><span>Graphic Tote</span></div></section>
       <section className="orderSection" id="order">
