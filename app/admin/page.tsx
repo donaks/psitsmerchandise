@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import "./admin.css";
+import "./admin-brand.css";
 
 type Address = { line1?: string; city?: string; province?: string; postalCode?: string };
 type Order = {
@@ -61,7 +62,7 @@ export default function AdminPage() {
   }
 
   return <main className="adminShell">
-    <aside className="adminNav"><a className="adminBrand" href="/"><span>14</span><div>PSITS<small>ADMIN CONSOLE</small></div></a><nav><a className="active" href="#dashboard">Overview</a><a href="#orders">Orders</a><a href="/">View storefront ↗</a></nav><div className="adminSecure">● OWNER ACCESS</div></aside>
+    <aside className="adminNav"><a className="adminBrand" href="/"><img src="/psits-region-xii-seal.png" alt="PSITS Region XII seal"/><div>PSITS<small>ADMIN CONSOLE</small></div></a><nav><a className="active" href="#dashboard">Overview</a><a href="#orders">Orders</a><a href="/">View storefront ↗</a></nav><div className="adminSecure">● OWNER ACCESS</div></aside>
     <section className="adminMain" id="dashboard">
       <header className="adminHeader"><div><p>14TH REGIONAL CONVENTION</p><h1>Order verification</h1></div><button onClick={() => void load()}>Refresh data</button></header>
       {error && <div className="adminError">{error}</div>}

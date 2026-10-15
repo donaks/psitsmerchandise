@@ -80,9 +80,9 @@ export default function Home() {
   return (
     <main>
       <div className="ticker">14TH PSITS REGIONAL CONVENTION <span>•</span> ONE COMPLETE KIT <span>•</span> SECURE GCASH SUBMISSION</div>
-      <header><a className="brand" href="#top"><span>14</span><div>PSITS<small>REGIONAL CONVENTION</small></div></a><a className="navCta" href="#order">Order Kit</a></header>
+      <header><a className="brand" href="#top"><img className="brandLogo" src="/psits-region-xii-seal.png" alt="PSITS Region XII seal"/><div>PSITS<small>REGIONAL CONVENTION</small></div></a><a className="navCta" href="#order">Order Kit</a></header>
       <section className="hero" id="top">
-        <div className="heroCopy"><p className="eyebrow">Official convention bundle</p><h1>ONE KIT.<br/><em>ALL IN.</em></h1><p className="lede">Jersey, lanyard, commemorative pin, and graphic tote—one complete PSITS convention set.</p><div className="price"><small>COMPLETE KIT</small><strong>₱650.00</strong></div><a className="primary" href="#order">Order & upload receipt ↓</a></div>
+        <div className="heroCopy"><img className="eventLogo" src="/psits-14-official.png" alt="14th PSITS Regional Convention — From Ideas to Impact: IT as the Core Driver of Innovation"/><p className="eyebrow">Official convention bundle</p><h1>ONE KIT.<br/><em>ALL IN.</em></h1><p className="lede">Jersey, lanyard, commemorative pin, and graphic tote—one complete PSITS convention set.</p><div className="price"><small>COMPLETE KIT</small><strong>₱650.00</strong></div><a className="primary" href="#order">Order & upload receipt ↓</a></div>
         <div className="heroVisual"><img src="/psits-kit.png" alt="PSITS kit with jersey, lanyard and pin"/><div className="stamp">4 PIECES<br/>1 KIT</div></div>
       </section>
       <section className="kitStrip"><div><b>01</b><span>Convention Jersey</span></div><div><b>02</b><span>Event Lanyard</span></div><div><b>03</b><span>Button Pin</span></div><div><b>04</b><span>Graphic Tote</span></div></section>
@@ -105,7 +105,7 @@ export default function Home() {
         </form>
       </section>
       <section className="tote"><img src="/psits-tote.jpg" alt="PSITS Region Twelve graphic tote bag"/><div><p className="eyebrow">Included in every kit</p><h2>CARRY THE<br/>CONVENTION.</h2><p>The complete bundle includes the official graphic tote—ready for your convention essentials.</p></div></section>
-      <footer><div className="brand"><span>14</span><div>PSITS<small>REGIONAL CONVENTION</small></div></div><p>Payment confirmation is finalized by the event organizers.</p></footer>
+      <footer><div className="brand"><img className="brandLogo" src="/psits-region-xii-seal.png" alt="PSITS Region XII seal"/><div>PSITS<small>REGIONAL CONVENTION</small></div></div><p>Payment confirmation is finalized by the event organizers.</p></footer>
     </main>
   );
 }
