@@ -35,6 +35,18 @@ export async function POST(request: Request) {
     const clientName = String(form.get("clientName") ?? "").trim();
     const email = String(form.get("email") ?? "").trim().toLowerCase();
     const contactNo = String(form.get("contactNo") ?? "").replace(/[^0-9+]/g, "");
+    const billingAddress = {
+      line1: String(form.get("billingLine1") ?? "").trim(),
+      city: String(form.get("billingCity") ?? "").trim(),
+      province: String(form.get("billingProvince") ?? "").trim(),
+      postalCode: String(form.get("billingPostalCode") ?? "").trim(),
+    };
+    const shippingAddress = {
+      line1: String(form.get("shippingLine1") ?? "").trim(),
+      city: String(form.get("shippingCity") ?? "").trim(),
+      province: String(form.get("shippingProvince") ?? "").trim(),
+      postalCode: String(form.get("shippingPostalCode") ?? "").trim(),
+    };
     const jerseySize = String(form.get("jerseySize") ?? "").trim();
     const extractedText = String(form.get("extractedText") ?? "").trim().slice(0, 12000);
     const transactionDate = String(form.get("transactionDate") ?? "").trim().slice(0, 80) || null;
@@ -43,6 +55,8 @@ export async function POST(request: Request) {
     if (clientName.length < 2 || clientName.length > 120) return json({ error: "Enter the client's full name." }, 400);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: "Enter a valid email address." }, 400);
     if (!/^(?:\+63|0)9\d{9}$/.test(contactNo)) return json({ error: "Enter a valid Philippine mobile number." }, 400);
+    if (Object.values(billingAddress).some((value) => value.length < 2 || value.length > 160)) return json({ error: "Complete the billing address." }, 400);
+    if (Object.values(shippingAddress).some((value) => value.length < 2 || value.length > 160)) return json({ error: "Complete the shipping address." }, 400);
     if (!ALLOWED_SIZES.has(jerseySize)) return json({ error: "Select a valid jersey size." }, 400);
     if (!(receipt instanceof File) || !receipt.type.startsWith("image/")) return json({ error: "Upload a JPG, PNG, or WebP receipt image." }, 400);
     if (receipt.size < 10_000 || receipt.size > 8_000_000) return json({ error: "Receipt image must be between 10 KB and 8 MB." }, 400);
@@ -69,12 +83,14 @@ export async function POST(request: Request) {
     try {
       const result = await env.DB.prepare(
         `INSERT INTO orders
-          (client_name, email, contact_no, jersey_size, amount_centavos, gcash_reference,
-           transaction_date, receipt_hash, receipt_key, extracted_text, validation_status, created_at)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, 'pending_review', ?11)`
+          (client_name, email, contact_no, billing_address, shipping_address, jersey_size,
+           amount_centavos, gcash_reference, transaction_date, receipt_hash, receipt_key,
+           extracted_text, validation_status, created_at)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, 'pending_review', ?13)`
       ).bind(
-        clientName, email, contactNo, jerseySize, KIT_AMOUNT_CENTAVOS, gcashReference,
-        transactionDate, receiptHash, receiptKey, extractedText, new Date().toISOString()
+        clientName, email, contactNo, JSON.stringify(billingAddress), JSON.stringify(shippingAddress),
+        jerseySize, KIT_AMOUNT_CENTAVOS, gcashReference, transactionDate, receiptHash,
+        receiptKey, extractedText, new Date().toISOString()
       ).run();
       return json({
         ok: true,
