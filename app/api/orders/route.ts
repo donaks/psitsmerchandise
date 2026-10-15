@@ -39,12 +39,14 @@ export async function POST(request: Request) {
       line1: String(form.get("billingLine1") ?? "").trim(),
       city: String(form.get("billingCity") ?? "").trim(),
       province: String(form.get("billingProvince") ?? "").trim(),
+      barangay: String(form.get("billingBarangay") ?? "").trim(),
       postalCode: String(form.get("billingPostalCode") ?? "").trim(),
     };
     const shippingAddress = {
       line1: String(form.get("shippingLine1") ?? "").trim(),
       city: String(form.get("shippingCity") ?? "").trim(),
       province: String(form.get("shippingProvince") ?? "").trim(),
+      barangay: String(form.get("shippingBarangay") ?? "").trim(),
       postalCode: String(form.get("shippingPostalCode") ?? "").trim(),
     };
     const jerseySize = String(form.get("jerseySize") ?? "").trim();

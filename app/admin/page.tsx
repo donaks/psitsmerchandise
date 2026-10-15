@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import "./admin.css";
 import "./admin-brand.css";
 
-type Address = { line1?: string; city?: string; province?: string; postalCode?: string };
+type Address = { line1?: string; barangay?: string; city?: string; province?: string; postalCode?: string };
 type Order = {
   id: number; clientName: string; email: string; contactNo: string; billingAddress: string;
   shippingAddress: string; jerseySize: string; amountCentavos: number; gcashReference: string;
@@ -15,7 +15,7 @@ type Order = {
 const peso = (centavos: number) => new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(centavos / 100);
 const date = (value: string | null) => value ? new Intl.DateTimeFormat("en-PH", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value)) : "—";
 const address = (value: string) => { try { return JSON.parse(value) as Address; } catch { return {}; } };
-const addressLine = (value: string) => { const item = address(value); return [item.line1, item.city, item.province, item.postalCode].filter(Boolean).join(", ") || "Not provided"; };
+const addressLine = (value: string) => { const item = address(value); return [item.line1, item.barangay, item.city, item.province, item.postalCode].filter(Boolean).join(", ") || "Not provided"; };
 
 export default function AdminPage() {
   const [orders, setOrders] = useState<Order[]>([]);

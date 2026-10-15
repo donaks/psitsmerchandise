@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useRef, useState } from "react";
+import AddressSelector from "@/components/address-selector";
 
 declare global {
   interface Window {
@@ -92,8 +93,8 @@ export default function Home() {
           <div className="formTitle"><span>STEP 01</span><h3>Customer details</h3></div>
           <div className="twoCol"><label>Client name<input name="clientName" required minLength={2} placeholder="Juan Dela Cruz"/></label><label>Email address<input name="email" type="email" required placeholder="juan@email.com"/></label></div>
           <div className="twoCol"><label>Contact number<input name="contactNo" inputMode="tel" required pattern="(?:\+63|0)9[0-9]{9}" placeholder="09XXXXXXXXX"/></label><label>Jersey size<select name="jerseySize" required defaultValue=""><option value="" disabled>Select size</option>{["XS","S","M","L","XL","2XL","3XL"].map(item => <option key={item}>{item}</option>)}</select></label></div>
-          <fieldset className="addressGroup"><legend>Billing address</legend><label>Street / Barangay<input name="billingLine1" required minLength={2} placeholder="House no., street, barangay"/></label><div className="addressGrid"><label>City / Municipality<input name="billingCity" required minLength={2}/></label><label>Province<input name="billingProvince" required minLength={2}/></label><label>Postal code<input name="billingPostalCode" required minLength={2} inputMode="numeric"/></label></div></fieldset>
-          <fieldset className="addressGroup"><legend>Shipping address</legend><label>Street / Barangay<input name="shippingLine1" required minLength={2} placeholder="House no., street, barangay"/></label><div className="addressGrid"><label>City / Municipality<input name="shippingCity" required minLength={2}/></label><label>Province<input name="shippingProvince" required minLength={2}/></label><label>Postal code<input name="shippingPostalCode" required minLength={2} inputMode="numeric"/></label></div></fieldset>
+          <AddressSelector prefix="billing" legend="Billing address" />
+          <AddressSelector prefix="shipping" legend="Shipping address" />
           <div className="formTitle second"><span>STEP 02</span><h3>GCash receipt</h3></div>
           <label className={`upload ${preview ? "hasPreview" : ""}`}>{preview ? <img src={preview} alt="Selected GCash receipt preview"/> : <><div className="uploadIcon">↑</div><b>Upload transaction receipt</b><span>JPG, PNG or WebP • 8 MB maximum</span></>}<input type="file" accept="image/png,image/jpeg,image/webp" required onChange={event => { const file=event.target.files?.[0]; if(file) void readReceipt(file); }}/>{preview && <span className="replace">Choose a different image</span>}</label>
           {status === "scanning" && <div className="scanBox"><div><b>Reading receipt</b><span>{progress}%</span></div><progress value={progress} max="100"/></div>}
